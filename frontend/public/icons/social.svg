@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100" viewBox="0 0 300 100">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 100px;
+        fill: #1876f2;
+        font-family: "Britannic Bold";
+      }
+    </style>
+  </defs>
+  <text id="Social" class="cls-1" x="21.834" y="92">Social</text>
+</svg>
