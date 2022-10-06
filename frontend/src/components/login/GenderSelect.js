@@ -35,13 +35,13 @@ export default function GenderSelect({ handleRegisterChange, genderError }) {
           onChange={handleRegisterChange}
         />
       </label>
-      <label htmlFor="custom">
-        Custom
+      <label htmlFor="nonbinary">
+        Non-Binary
         <input
           type="radio"
           name="gender"
-          id="custom"
-          value="custom"
+          id="nonbinary"
+          value="nonbinary"
           onChange={handleRegisterChange}
         />
       </label>

@@ -4,12 +4,12 @@ import RegisterInput from "../inputs/registerInput";
 import * as Yup from "yup";
 import DateOfBirthSelect from "./DateOfBirthSelect";
 import GenderSelect from "./GenderSelect";
-import DotLoader from "react-spinners/DotLoader";
+import PropagateLoader from "react-spinners/PropagateLoader";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-export default function RegisterForm() {
+export default function RegisterForm({ setVisible }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfos = {
@@ -107,7 +107,7 @@ export default function RegisterForm() {
     <div className="blur">
       <div className="register">
         <div className="register_header">
-          <i className="exit_icon"></i>
+          <i className="exit_icon" onClick={() => setVisible(false)}></i>
           <span>Sign Up</span>
           <span>it's quick and easy</span>
         </div>
@@ -215,7 +215,7 @@ export default function RegisterForm() {
               <div className="reg_btn_wrapper">
                 <button className="blue_btn open_signup">Sign Up</button>
               </div>
-              <DotLoader color="#1876f2" loading={loading} size={30} />
+              <PropagateLoader color="#1876f2" loading={loading} size={30} />
               {error && <div className="error_text">{error}</div>}
               {success && <div className="success_text">{success}</div>}
             </Form>
