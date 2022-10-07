@@ -116,10 +116,6 @@ const userSchema = mongoose.Schema(
       hometown: {
         type: String,
       },
-      relationship: {
-        type: String,
-        enum: ["Single", "In a relationship", "Married", "Divorced"],
-      },
       instagram: {
         type: String,
       },

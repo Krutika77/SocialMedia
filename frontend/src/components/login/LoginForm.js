@@ -3,12 +3,18 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import LoginInput from "../../components/inputs/loginInput";
 import { useState } from "react";
-
+import PropagateLoader from "react-spinners/PropagateLoader";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 const loginInfos = {
   email: "",
   password: "",
 };
 export default function LoginForm({ setVisible }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [login, setLogin] = useState(loginInfos);
   const { email, password } = login;
   const handleLoginChange = (e) => {
@@ -22,6 +28,26 @@ export default function LoginForm({ setVisible }) {
       .max(100),
     password: Yup.string().required("Password is required"),
   });
+  const [error, setError] = useState("");
+  // const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const loginSubmit = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/login`,
+        { email, password }
+      );
+      // const { message, ...rest } = data;
+
+      dispatch({ type: "LOGIN", payload: data });
+      Cookies.set("user", JSON.stringify(data));
+      navigate("/");
+    } catch (error) {
+      setLoading(false);
+      setError(error.response.data.message);
+    }
+  };
   return (
     <div className="login_wrap">
       <div className="login_1">
@@ -39,6 +65,9 @@ export default function LoginForm({ setVisible }) {
               password,
             }}
             validationSchema={loginValidation}
+            onSubmit={() => {
+              loginSubmit();
+            }}
           >
             {(formik) => (
               <Form>
@@ -64,6 +93,8 @@ export default function LoginForm({ setVisible }) {
           <Link to="/forgot" className="forgot_password">
             Forgotten password?
           </Link>
+          <PropagateLoader color="#1876f2" loading={loading} size={30} />
+          {error && <div className="error_text">{error}</div>}
           <div className="sign_splitter"></div>
           <button
             className="blue_btn open_signup"
