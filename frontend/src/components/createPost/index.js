@@ -14,7 +14,7 @@ export default function CreatePost({ user }) {
       <div className="createPost_body">
         <div className="createPost_icon hover1">
           <LiveVideo color="#f3425f" />
-          Live video
+          Live Video
         </div>
         <div className="createPost_icon hover1">
           <Photo color="#4bbf67" />

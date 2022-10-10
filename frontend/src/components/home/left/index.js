@@ -87,7 +87,7 @@ export default function LeftHome({ user }) {
         <Link to="/">Advertising </Link>
         <span>. </span>
         <Link to="/">
-          Ad Choices <i className="ad_choices_icon"></i>
+          Ad Choices <i className="ad_choices_icon"></i>{" "}
         </Link>
         <span>. </span>
         <Link to="/">Cookies </Link>

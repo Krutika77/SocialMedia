@@ -4,7 +4,10 @@ import Profile from "./pages/profile";
 import Home from "./pages/home";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
+import { useSelector } from "react-redux";
+
 function App() {
+  const { user } = useSelector((state) => ({ ...state }));
   return (
     <div>
       <Routes>

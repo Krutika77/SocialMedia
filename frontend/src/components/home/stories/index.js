@@ -1,9 +1,8 @@
-import "./style.css";
 import { ArrowRight, Plus } from "../../../svg";
+import "./style.css";
 import { stories } from "../../../data/home";
 import Story from "./Story";
 import { useMediaQuery } from "react-responsive";
-
 export default function Stories() {
   const query1175px = useMediaQuery({
     query: "(max-width: 1175px)",
