@@ -1,20 +1,21 @@
 import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import Header from "../../components/header";
-import useClickOutside from "../../helpers/clickOutside";
+import RightHome from "../../components/home/left";
+import LeftHome from "../../components/home/right";
+import Stories from "../../components/home/stories";
+import "./style.css";
 
 export default function Home() {
-  const [visible, setVisible] = useState(true);
-  const el = useRef(null);
-  useClickOutside(el, () => {
-    el.current.style.display = "none";
-  });
-  useClickOutside(el, () => {
-    setVisible(false);
-  });
+  const { user } = useSelector((user) => ({ ...user }));
   return (
-    <div>
+    <div className="home">
       <Header />
-      {visible && <div className="card" ref={el}></div>}
+      <LeftHome user={user} />
+      <div className="home_middle">
+        <Stories />
+      </div>
+      <RightHome user={user} />
     </div>
   );
 }

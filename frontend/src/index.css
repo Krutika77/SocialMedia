@@ -75,11 +75,11 @@ a {
   background: #d4d6da3a;
 }
 /* ----Hovers---- */
-.card {
+/* .card {
   height: 500px;
   width: 500px;
   background-color: red;
-}
+} */
 
 /* -----Scrollbar----- */
 .scrollbar::-webkit-scrollbar {
