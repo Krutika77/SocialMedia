@@ -70,7 +70,6 @@ exports.register = async (req, res) => {
       { id: user._id.toString() },
       "30m"
     );
-    console.log(emailVerificationToken);
     const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
     sendVerificationEmail(user.email, user.first_name, url);
     const token = generateToken({ id: user._id.toString() }, "7d");
@@ -90,13 +89,20 @@ exports.register = async (req, res) => {
 };
 exports.activateAccount = async (req, res) => {
   try {
+    const validUser = req.user.id;
     const { token } = req.body;
     const user = jwt.verify(token, process.env.TOKEN_SECRET);
     const check = await User.findById(user.id);
+
+    if (validUser !== user.id) {
+      return res.status(400).json({
+        message: "You are not authorized to complete this operation.",
+      });
+    }
     if (check.verified == true) {
       return res
         .status(400)
-        .json({ message: "this email is already activated" });
+        .json({ message: "This email is already activated" });
     } else {
       await User.findByIdAndUpdate(user.id, { verified: true });
       return res
@@ -132,7 +138,28 @@ exports.login = async (req, res) => {
       last_name: user.last_name,
       token: token,
       verified: user.verified,
-      message: "Registered Successfully! Please activate your email to start",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+exports.sendVerification = async (req, res) => {
+  try {
+    const id = req.user.id;
+    const user = await User.findById(id);
+    if (user.verified === true) {
+      return res.status(400).json({
+        message: "This account is already activated.",
+      });
+    }
+    const emailVerificationToken = generateToken(
+      { id: user._id.toString() },
+      "1d"
+    );
+    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+    sendVerificationEmail(user.email, user.first_name, url);
+    return res.status(200).json({
+      message: "Email verification link sent to your inbox.",
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
