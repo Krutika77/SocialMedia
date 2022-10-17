@@ -90,8 +90,8 @@ export default function LoginForm({ setVisible }) {
               </Form>
             )}
           </Formik>
-          <Link to="/forgot" className="forgot_password">
-            Forgotten password?
+          <Link to="/reset" className="forgot_password">
+            Forgot password?
           </Link>
           <PropagateLoader color="#1876f2" loading={loading} size={30} />
           {error && <div className="error_text">{error}</div>}
