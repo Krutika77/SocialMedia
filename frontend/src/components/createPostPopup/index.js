@@ -4,17 +4,108 @@ import Picker from "emoji-picker-react";
 import EmojiPickerBackgrounds from "./EmojiPickerBackgrounds";
 import AddToYourPost from "./AddToYourPost";
 import ImagePreview from "./ImagePreview";
+import useClickOutside from "../../helpers/clickOutside";
+import { createPost } from "../../functions/post";
+import PulseLoader from "react-spinners/PulseLoader";
+import PostError from "./PostError";
+import dataURItoBlob from "../../helpers/dataURItoBlob";
+import { uploadImages } from "../../functions/uploadImages";
+import { useDispatch } from "react-redux";
 
-export default function CreatePostPopup({ user }) {
+export default function CreatePostPopup({ user, setCreatePostVisible }) {
+  const dispatch = useDispatch();
+  const popup = useRef(null);
   const [text, setText] = useState("");
-  const [showPrev, setShowPrev] = useState(true);
+  const [showPrev, setShowPrev] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [images, setImages] = useState([]);
+  const [background, setBackground] = useState("");
+  useClickOutside(popup, () => {
+    setCreatePostVisible(false);
+  });
+  const postSubmit = async () => {
+    if (background) {
+      setLoading(true);
+      const response = await createPost(
+        null,
+        background,
+        text,
+        null,
+        user.id,
+        user.token
+      );
+      setLoading(false);
 
+      if (response === "OK") {
+        setBackground("");
+        setText("");
+        setCreatePostVisible(false);
+      } else {
+        setError(response);
+      }
+    } else if (images && images.length) {
+      setLoading(true);
+      const postImages = images.map((img) => {
+        return dataURItoBlob(img);
+      });
+      const path = `${user.username}/postImages`;
+      let formData = new FormData();
+      formData.append("path", path);
+      postImages.forEach((image) => {
+        formData.append("file", image);
+      });
+      const response = await uploadImages(formData, path, user.token);
+      const res = await createPost(
+        null,
+        null,
+        text,
+        response,
+        user.id,
+        user.token
+      );
+      setLoading(false);
+      if (res === "OK") {
+        setText("");
+        setImages("");
+        setCreatePostVisible(false);
+      } else {
+        setError(res);
+      }
+    } else if (text) {
+      setLoading(true);
+      const response = await createPost(
+        null,
+        null,
+        text,
+        null,
+        user.id,
+        user.token
+      );
+      setLoading(false);
+
+      if (response === "OK") {
+        setBackground("");
+        setText("");
+        setCreatePostVisible(false);
+      } else {
+        setError(response);
+      }
+    } else {
+      console.log("nothing");
+    }
+  };
   return (
     <div className="blur">
-      <div className="postBox">
+      <div className="postBox" ref={popup}>
+        {error && <PostError error={error} setError={setError} />}
         <div className="box_header">
-          <div className="small_circle">
+          <div
+            className="small_circle"
+            onClick={() => {
+              setCreatePostVisible(false);
+            }}
+          >
             <i className="exit_icon"></i>
           </div>
           <span>Create Post</span>
@@ -38,7 +129,9 @@ export default function CreatePostPopup({ user }) {
               text={text}
               user={user}
               setText={setText}
-              // showPrev={showPrev}
+              showPrev={showPrev}
+              setBackground={setBackground}
+              background={background}
             />
           </>
         ) : (
@@ -48,11 +141,21 @@ export default function CreatePostPopup({ user }) {
             setText={setText}
             setShowPrev={setShowPrev}
             images={images}
+            showPrev={showPrev}
             setImages={setImages}
+            setError={setError}
           />
         )}
         <AddToYourPost setShowPrev={setShowPrev} />
-        <button className="post_submit">Post</button>
+        <button
+          className="post_submit"
+          onClick={() => {
+            postSubmit();
+          }}
+          disabled={loading}
+        >
+          {loading ? <PulseLoader color="#fff" size={5} /> : "Post"}
+        </button>
       </div>
     </div>
   );
