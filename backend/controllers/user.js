@@ -232,3 +232,16 @@ exports.changePassword = async (req, res) => {
   );
   return res.status(200).json({ message: "All good!" });
 };
+
+exports.getProfile = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const profile = await User.findOne({ username }).select("-password");
+    if (!profile) {
+      return res.json({ OK: false });
+    }
+    res.json(profile);
+  } catch (error) {
+    return res.status(200).json({ message: "All good!" });
+  }
+};

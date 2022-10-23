@@ -10,6 +10,7 @@ import Reset from "./pages/reset";
 import CreatePostPopup from "./components/createPostPopup";
 import { useEffect, useReducer, useState } from "react";
 import axios from "axios";
+import { postReducer } from "./functions/reducers";
 function reducer(state, action) {
   switch (action.type) {
     case "POSTS_REQUEST":
@@ -35,7 +36,7 @@ function reducer(state, action) {
 function App() {
   const [createPostVisible, setCreatePostVisible] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
-  const [{ loading, error, posts }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, posts }, dispatch] = useReducer(postReducer, {
     loading: false,
     posts: [],
     error: "",
@@ -78,6 +79,7 @@ function App() {
       <Routes>
         <Route element={<LoggedInRoutes />}>
           <Route path="/profile" element={<Profile />} exact />
+          <Route path="/profile/:username" element={<Profile />} exact />
           <Route
             path="/"
             element={
