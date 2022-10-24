@@ -8,6 +8,7 @@ import "./style.css";
 import Cover from "./Cover";
 import ProfilePicInfos from "./ProfilePicInfos";
 import ProfileMenu from "./ProfileMenu";
+import PplYouMayKnow from "./PplYouMayKnow";
 
 export default function Profile() {
   const { username } = useParams();
@@ -62,7 +63,9 @@ export default function Profile() {
       </div>
       <div className="profile_bottom">
         <div className="profile_container">
-          <div className="bottom_container"></div>
+          <div className="bottom_container">
+            <PplYouMayKnow />
+          </div>
         </div>
       </div>
     </div>
