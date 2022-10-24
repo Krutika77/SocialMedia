@@ -9,8 +9,11 @@ import Cover from "./Cover";
 import ProfilePicInfos from "./ProfilePicInfos";
 import ProfileMenu from "./ProfileMenu";
 import PplYouMayKnow from "./PplYouMayKnow";
+import CreatePost from "../../components/createPost";
+import GridPosts from "./GridPosts";
+import Post from "../../components/post";
 
-export default function Profile() {
+export default function Profile({ setCreatePostVisible }) {
   const { username } = useParams();
   const navigate = useNavigate();
   const { user } = useSelector((state) => ({ ...state }));
@@ -23,6 +26,7 @@ export default function Profile() {
   useEffect(() => {
     getProfile();
   }, [userName]);
+  let visitor = userName === user.username ? false : true;
   const getProfile = async () => {
     try {
       dispatch({
@@ -51,13 +55,14 @@ export default function Profile() {
       });
     }
   };
+  console.log(profile);
   return (
     <div className="profile">
       <Header page="profile" />;
       <div className="profile_top">
         <div className="profile_container">
-          <Cover cover={profile.cover} />
-          <ProfilePicInfos profile={profile} />
+          <Cover cover={profile.cover} visitor={visitor} />
+          <ProfilePicInfos profile={profile} visitor={visitor} />
           <ProfileMenu />
         </div>
       </div>
@@ -65,6 +70,28 @@ export default function Profile() {
         <div className="profile_container">
           <div className="bottom_container">
             <PplYouMayKnow />
+            <div className="profile_grid">
+              <div className="profile_left"></div>
+              <div className="profile_right">
+                {!visitor && (
+                  <CreatePost
+                    user={user}
+                    profile
+                    setCreatePostVisible={setCreatePostVisible}
+                  />
+                )}
+                <GridPosts />
+                <div className="posts">
+                  {profile.posts && profile.posts.length ? (
+                    profile.posts.map((post) => (
+                      <Post post={post} user={user} key={post._id} />
+                    ))
+                  ) : (
+                    <div className="no_posts">No Posts Available</div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

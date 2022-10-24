@@ -65,7 +65,7 @@ export default function Post({ post, user }) {
       ) : (
         <>
           <div className="post_text">{post.text}</div>
-          {post.images && post.images.length && (
+          {post.images && post.images.length ? (
             <div
               className={
                 post.images.length === 1
@@ -88,6 +88,8 @@ export default function Post({ post, user }) {
                 </div>
               )}
             </div>
+          ) : (
+            ""
           )}
         </>
       )}
