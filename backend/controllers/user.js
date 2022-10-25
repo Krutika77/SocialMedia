@@ -244,6 +244,18 @@ exports.getProfile = async (req, res) => {
     const posts = await Post.find({ user: profile._id }).populate("user");
     res.json({ ...profile.toObject(), posts });
   } catch (error) {
-    return res.status(200).json({ message: "All good!" });
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.updateProfilePicture = async (req, res) => {
+  try {
+    const { url } = req.body;
+    await User.findByIdAndUpdate(req.user.id, {
+      picture: url,
+    });
+    res.json(url);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
