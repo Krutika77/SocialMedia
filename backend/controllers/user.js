@@ -8,6 +8,7 @@ const Code = require("../models/Code");
 const Post = require("../models/Post");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const cloudinary = require("cloudinary");
 const { generateToken } = require("../helpers/tokens");
 const { sendVerificationEmail, sendResetCode } = require("../helpers/mailer");
 const generateCode = require("../helpers/generateCode");
@@ -215,7 +216,7 @@ exports.validateResetCode = async (req, res) => {
         message: "Wrong verification code.",
       });
     }
-    return res.status(200).json({ message: "All set!" });
+    return res.status(200).json({ message: "OK" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -231,7 +232,7 @@ exports.changePassword = async (req, res) => {
       password: cryptedPassword,
     }
   );
-  return res.status(200).json({ message: "All good!" });
+  return res.status(200).json({ message: "OK" });
 };
 
 exports.getProfile = async (req, res) => {
@@ -241,7 +242,9 @@ exports.getProfile = async (req, res) => {
     if (!profile) {
       return res.json({ OK: false });
     }
-    const posts = await Post.find({ user: profile._id }).populate("user");
+    const posts = await Post.find({ user: profile._id })
+      .populate("user")
+      .sort({ createdAt: -1 });
     res.json({ ...profile.toObject(), posts });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -253,6 +256,18 @@ exports.updateProfilePicture = async (req, res) => {
     const { url } = req.body;
     await User.findByIdAndUpdate(req.user.id, {
       picture: url,
+    });
+    res.json(url);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.updateCover = async (req, res) => {
+  try {
+    const { url } = req.body;
+    await User.findByIdAndUpdate(req.user.id, {
+      cover: url,
     });
     res.json(url);
   } catch (error) {

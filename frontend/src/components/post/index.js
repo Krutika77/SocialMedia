@@ -22,7 +22,7 @@ export default function Post({ post, user, profile }) {
             <div className="post_profile_name">
               {post.user.first_name} {post.user.last_name}
               <div className="updated_p">
-                {post.type === "profilePicture" &&
+                {post.type == "profilePicture" &&
                   `updated ${
                     post.user.gender === "male"
                       ? "his"
@@ -30,7 +30,7 @@ export default function Post({ post, user, profile }) {
                       ? "her"
                       : "their"
                   } profile picture`}
-                {post.type === "cover" &&
+                {post.type == "coverPicture" &&
                   `updated ${
                     post.user.gender === "male"
                       ? "his"
@@ -62,7 +62,7 @@ export default function Post({ post, user, profile }) {
         >
           <div className="post_bg_text">{post.text}</div>
         </div>
-      ) : (
+      ) : post.type === null ? (
         <>
           <div className="post_text">{post.text}</div>
           {post.images && post.images.length ? (
@@ -80,10 +80,10 @@ export default function Post({ post, user, profile }) {
               }
             >
               {post.images.slice(0, 5).map((image, i) => (
-                <img src={image.url} key={i} alt="" />
+                <img src={image.url} key={i} alt="" className={`img-${i}`} />
               ))}
               {post.images.length > 5 && (
-                <div className="more_pics_shadow">
+                <div className="more-pics-shadow">
                   +{post.images.length - 5}
                 </div>
               )}
@@ -92,10 +92,25 @@ export default function Post({ post, user, profile }) {
             ""
           )}
         </>
+      ) : post.type === "profilePicture" ? (
+        <div className="post_profile_wrap">
+          <div className="post_updated_bg">
+            <img src={post.user.cover} alt="" />
+          </div>
+          <img
+            src={post.images[0].url}
+            alt=""
+            className="post_updated_picture"
+          />
+        </div>
+      ) : (
+        <div className="post_cover_wrap">
+          <img src={post.images[0].url} alt="" />
+        </div>
       )}
       <div className="post_infos">
         <div className="reacts_count">
-          <div className="react_count_imgs"></div>
+          <div className="reacts_count_imgs"></div>
           <div className="reacts_count_num"></div>
         </div>
         <div className="to_right">

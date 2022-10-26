@@ -1,8 +1,14 @@
 import "./style.css";
 import { useRef, useState } from "react";
 import UpdateProfilePicture from "./UpdateProfilePicture";
+import useOnClickOutside from "../../helpers/clickOutside";
+import { photosReducer } from "../../functions/reducers";
+import { useSelector } from "react-redux";
 
-export default function ProfilePicture({ username }) {
+export default function ProfilePicture({ username, setShow, pRef, photos }) {
+  const popup = useRef(null);
+  const { user } = useSelector((state) => ({ ...state }));
+  //useOnClickOutside(popup, () => setShow(false));
   const refInput = useRef(null);
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
@@ -36,9 +42,9 @@ export default function ProfilePicture({ username }) {
         onChange={handleImage}
         accept="image/jpeg, image/png, image/webp, image/gif"
       />
-      <div className="postBox pictureBox">
+      <div className="postBox pictureBox" ref={popup}>
         <div className="box_header">
-          <div className="small_circle">
+          <div className="small_circle" onClick={() => setShow(false)}>
             <i className="exit_icon"></i>
           </div>
           <span>Update profile picture</span>
@@ -66,13 +72,46 @@ export default function ProfilePicture({ username }) {
             </button>
           </div>
         )}
-        <div className="old_pictures_wrap"></div>
+        <div className="old_pictures_wrap scrollbar">
+          <h4>Your previous profile pictures</h4>
+          <div className="old_pictures">
+            {photos
+              .filter(
+                (img) => img.folder === `${user.username}/profile_pictures`
+              )
+              .map((photo) => (
+                <img
+                  src={photo.secure_url}
+                  key={photo.public_id}
+                  alt=""
+                  onClick={() => setImage(photo.secure_url)}
+                />
+              ))}
+          </div>
+          <h4>Other pictures</h4>
+          <div className="old_pictures">
+            {photos
+              .filter(
+                (img) => img.folder !== `${user.username}/profile_pictures`
+              )
+              .map((photo) => (
+                <img
+                  src={photo.secure_url}
+                  key={photo.public_id}
+                  alt=""
+                  onClick={() => setImage(photo.secure_url)}
+                />
+              ))}
+          </div>
+        </div>
       </div>
       {image && (
         <UpdateProfilePicture
           setImage={setImage}
           image={image}
           setError={setError}
+          setShow={setShow}
+          pRef={pRef}
         />
       )}
     </div>
