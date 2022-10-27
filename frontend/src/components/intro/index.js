@@ -4,10 +4,10 @@ import "./style.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import EditDetails from "./EditDetails";
-export default function Intro({ detailss, visitor }) {
+export default function Intro({ detailss, visitor, setOthername }) {
   const { user } = useSelector((state) => ({ ...state }));
   const [details, setDetails] = useState();
-  const [visible, setVisible] = useState(0);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
     setDetails(detailss);
     setInfos(detailss);
@@ -43,6 +43,7 @@ export default function Intro({ detailss, visitor }) {
       );
       setShowBio(false);
       setDetails(data);
+      setOthername(data.otherName);
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -148,14 +149,20 @@ export default function Intro({ detailss, visitor }) {
         </div>
       )}
       {!visitor && (
-        <button className="gray_btn hover1 w100">Edit Details</button>
+        <button
+          className="gray_btn hover1 w100"
+          onClick={() => setVisible(true)}
+        >
+          Edit Details
+        </button>
       )}
-      {visible === 0 && !visitor && (
+      {visible && !visitor && (
         <EditDetails
           details={details}
           handleChange={handleChange}
           updateDetails={updateDetails}
           infos={infos}
+          setVisible={setVisible}
         />
       )}
       {!visitor && (
