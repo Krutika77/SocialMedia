@@ -93,9 +93,9 @@ export default function Profile({ getAllPosts }) {
     setLeftHeight(leftSide.current.clientHeight);
     window.addEventListener("scroll", getScroll, { passive: true });
     return () => {
-      setScrollHeight(window.pageYOffset);
+      window.addEventListener("scroll", getScroll, { passive: true });
     };
-  }, [loading]);
+  }, [loading, scrollHeight]);
   const check = useMediaQuery({
     query: "(min-width:901px)",
   });

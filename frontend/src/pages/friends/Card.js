@@ -27,11 +27,11 @@ export default function Card({ userr, type, getData }) {
     }
   };
   return (
-    <div className="request_card">
+    <div className="req_card">
       <Link to={`/profile/${userr.username}`}>
         <img src={userr.picture} alt="" />
       </Link>
-      <div className="req_namr">
+      <div className="req_name">
         {userr.first_name} {userr.last_name}
       </div>
       {type === "sent" ? (

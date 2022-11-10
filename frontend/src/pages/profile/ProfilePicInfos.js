@@ -20,7 +20,7 @@ export default function ProfilePicInfos({
             className="profile_w_bg"
             ref={pRef}
             style={{
-              backgroundSize: "Cover",
+              backgroundSize: "cover",
               backgroundImage: `url(${profile.picture})`,
             }}
           ></div>
@@ -44,16 +44,23 @@ export default function ProfilePicInfos({
                 {profile?.friends.length === 0
                   ? ""
                   : profile?.friends.length === 1
-                  ? "1 Photo"
-                  : `${profile?.friends.length} photos`}
+                  ? "1 Friend"
+                  : `${profile?.friends.length} Friends`}
               </div>
             )}
           </div>
           <div className="profile_friend_imgs">
             {profile?.friends &&
               profile.friends.slice(0, 6).map((friend, i) => (
-                <Link to={`\profile\${friend.username}`} key={i}>
-                  <img src={friend.picture} alt="" />
+                <Link to={`/profile/${friend.username}`} key={i}>
+                  <img
+                    src={friend.picture}
+                    alt=""
+                    style={{
+                      transform: `translateX(${-i * 7}px)`,
+                      zIndex: `${i}`,
+                    }}
+                  />
                 </Link>
               ))}
           </div>

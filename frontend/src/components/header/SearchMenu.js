@@ -126,6 +126,7 @@ export default function SearchMenu({ color, setShowSearchMenu, token }) {
               to={`/profile/${user.username}`}
               className="search_user_item hover1"
               onClick={() => addToSearchHistoryHandler(user._id)}
+              key={user._id}
             >
               <img src={user.picture} alt="" />
               <span>

@@ -79,9 +79,7 @@ export default function PostMenu({
           title="Turn off notifications for this post"
         />
       )}
-      {test && (
-        <MenuItem icon="translation_icon" title="Turn off translations" />
-      )}
+      {test && <MenuItem icon="delete_icon" title="Turn off translations" />}
       {test && <MenuItem icon="date_icon" title="Edit Date" />}
       {test && (
         <MenuItem icon="refresh_icon" title="Refresh share attachment" />

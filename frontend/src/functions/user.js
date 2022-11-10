@@ -221,7 +221,7 @@ export const getFriendsPageInfos = async (token) => {
         },
       }
     );
-    return { ststus: "OK", data };
+    return { status: "OK", data };
   } catch (error) {
     return error.response.data.message;
   }

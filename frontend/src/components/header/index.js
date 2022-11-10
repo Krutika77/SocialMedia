@@ -62,21 +62,13 @@ export default function Header({ page, getAllPosts }) {
           className={`middle_icon ${page === "home" ? "active" : "hover1"}`}
           onClick={() => getAllPosts()}
         >
-          {page === "home" ? (
-            <HomeActive color={color} />
-          ) : (
-            <Home color={color} />
-          )}
+          {page === "home" ? <HomeActive /> : <Home color={color} />}
         </Link>
         <Link
           to="/friends"
           className={`middle_icon ${page === "friends" ? "active" : "hover1"}`}
         >
-          {page === "friends" ? (
-            <FriendsActive color={color} />
-          ) : (
-            <Friends color={color} />
-          )}
+          {page === "friends" ? <FriendsActive /> : <Friends color={color} />}
         </Link>
         <Link to="/" className="middle_icon hover1">
           <Watch color={color} />
@@ -86,8 +78,8 @@ export default function Header({ page, getAllPosts }) {
       <div className="header_right">
         <Link
           to="/profile"
-          className={`profile_link ${
-            page === "profile" ? "active_link" : "hover1"
+          className={`profile_link hover1 ${
+            page === "profile" ? "active_link" : ""
           }`}
         >
           <img src={user?.picture} alt="" />
@@ -125,7 +117,7 @@ export default function Header({ page, getAllPosts }) {
             }}
           >
             <div style={{ transform: "translateY(2px)" }}>
-              <ArrowDown />{" "}
+              <ArrowDown />
             </div>
           </div>
           {showUserMenu && <UserMenu user={user} />}

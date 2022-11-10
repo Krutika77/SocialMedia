@@ -1,5 +1,7 @@
 const cloudinary = require("cloudinary");
 const fs = require("fs");
+const path = require("path");
+
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,

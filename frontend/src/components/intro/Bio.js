@@ -1,5 +1,3 @@
-import ProfilePicInfos from "../../pages/profile/ProfilePicInfos";
-
 export default function Bio({
   infos,
   handleChange,

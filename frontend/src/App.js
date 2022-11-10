@@ -12,27 +12,6 @@ import { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 import { postReducer } from "./functions/reducers";
 import Friends from "./pages/friends";
-function reducer(state, action) {
-  switch (action.type) {
-    case "POSTS_REQUEST":
-      return { ...state, loading: true, error: "" };
-    case "POSTS_SUCCESS":
-      return {
-        ...state,
-        loading: false,
-        posts: action.payload,
-        error: "",
-      };
-    case "POSTS_ERROR":
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    default:
-      return state;
-  }
-}
 
 function App() {
   const [createPostVisible, setCreatePostVisible] = useState(false);

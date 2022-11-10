@@ -9,7 +9,7 @@ export default function Comment({ comment }) {
           <div className="comment_name">
             {comment.commentBy.first_name} {comment.commentBy.last_name}
           </div>
-          <div className="comment_text">{comment.comment}</div>{" "}
+          <div className="comment_text">{comment.comment}</div>
         </div>
         {comment.image && (
           <img src={comment.image} alt="" className="comment_image" />

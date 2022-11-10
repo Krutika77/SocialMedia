@@ -240,9 +240,7 @@ exports.getProfile = async (req, res) => {
   try {
     const { username } = req.params;
     const user = await User.findById(req.user.id);
-    const profile = await User.findOne({ username })
-      .select("-password")
-      .populate("friends", "first_name last_name username picture");
+    const profile = await User.findOne({ username }).select("-password");
     const friendship = {
       friends: false,
       following: false,
@@ -547,9 +545,10 @@ exports.deleteRequest = async (req, res) => {
 exports.search = async (req, res) => {
   try {
     const searchTerm = req.params.searchTerm;
-    const results = await User.find({ $text: { $search: searchTerm } })
-      .select("first_name last_name username picture")
-      .limit(50);
+    const results = await User.find({ $text: { $search: searchTerm } }).select(
+      "first_name last_name username picture"
+    );
+
     res.json(results);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -603,7 +602,7 @@ exports.deleteFromSearchHistory = async (req, res) => {
     const { searchUser } = req.body;
     await User.updateOne(
       {
-        id: req.user.id,
+        _id: req.user.id,
       },
       { $pull: { search: { user: searchUser } } }
     );
@@ -622,7 +621,7 @@ exports.getFriendsPageInfos = async (req, res) => {
       requests: mongoose.Types.ObjectId(req.user.id),
     }).select("first_name last_name picture username");
     res.json({
-      friemds: user.friends,
+      friends: user.friends,
       requests: user.requests,
       sentRequests,
     });

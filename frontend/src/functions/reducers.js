@@ -1,15 +1,15 @@
 export function postReducer(state, action) {
   switch (action.type) {
-    case "POSTS_REQUEST":
+    case "POST_REQUEST":
       return { ...state, loading: true, error: "" };
-    case "POSTS_SUCCESS":
+    case "POST_SUCCESS":
       return {
         ...state,
         loading: false,
         posts: action.payload,
         error: "",
       };
-    case "POSTS_ERROR":
+    case "POST_ERROR":
       return {
         ...state,
         loading: false,

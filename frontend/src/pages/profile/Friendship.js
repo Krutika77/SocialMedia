@@ -140,7 +140,7 @@ export default function Friendship({ friendshipp, profileId }) {
               <span>Respond</span>
             </button>
             {respondMenu && (
-              <div className="open_cover_menu" ref={menu}>
+              <div className="open_cover_menu" ref={menu1}>
                 <div
                   className="open_cover_menu_item hover1"
                   onClick={() => acceptRequestHandler()}
