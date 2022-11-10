@@ -488,6 +488,11 @@ header {
   font-weight: 600;
   font-size: 14px;
 }
+.search_user_item i {
+  position: absolute;
+  right: 10px;
+  transform: scale(0.6);
+}
 
 /*---responsive----------*/
 @media (max-width: 1295px) {
