@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   ArrowDown,
   Friends,
+  FriendsActive,
   Home,
   HomeActive,
   Menu,
@@ -67,8 +68,15 @@ export default function Header({ page, getAllPosts }) {
             <Home color={color} />
           )}
         </Link>
-        <Link to="/" className="middle_icon hover1">
-          <Friends color={color} />
+        <Link
+          to="/friends"
+          className={`middle_icon ${page === "friends" ? "active" : "hover1"}`}
+        >
+          {page === "friends" ? (
+            <FriendsActive color={color} />
+          ) : (
+            <Friends color={color} />
+          )}
         </Link>
         <Link to="/" className="middle_icon hover1">
           <Watch color={color} />

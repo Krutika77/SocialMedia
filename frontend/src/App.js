@@ -11,6 +11,7 @@ import CreatePostPopup from "./components/createPostPopup";
 import { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 import { postReducer } from "./functions/reducers";
+import Friends from "./pages/friends";
 function reducer(state, action) {
   switch (action.type) {
     case "POSTS_REQUEST":
@@ -94,6 +95,26 @@ function App() {
             path="/profile/:username"
             element={
               <Profile
+                setCreatePostVisible={setCreatePostVisible}
+                getAllPosts={getAllPosts}
+              />
+            }
+            exact
+          />
+          <Route
+            path="/friends"
+            element={
+              <Friends
+                setCreatePostVisible={setCreatePostVisible}
+                getAllPosts={getAllPosts}
+              />
+            }
+            exact
+          />
+          <Route
+            path="/friends/:type"
+            element={
+              <Friends
                 setCreatePostVisible={setCreatePostVisible}
                 getAllPosts={getAllPosts}
               />
