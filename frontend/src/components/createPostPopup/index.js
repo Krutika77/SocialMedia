@@ -12,8 +12,13 @@ import dataURItoBlob from "../../helpers/dataURItoBlob";
 import { uploadImages } from "../../functions/uploadImages";
 import { useDispatch } from "react-redux";
 
-export default function CreatePostPopup({ user, setCreatePostVisible }) {
-  const dispatch = useDispatch();
+export default function CreatePostPopup({
+  user,
+  setCreatePostVisible,
+  posts,
+  dispatch,
+  profile,
+}) {
   const popup = useRef(null);
   const [text, setText] = useState("");
   const [showPrev, setShowPrev] = useState(false);
@@ -37,7 +42,11 @@ export default function CreatePostPopup({ user, setCreatePostVisible }) {
       );
       setLoading(false);
 
-      if (response === "OK") {
+      if (response.status === "OK") {
+        dispatch({
+          type: profile ? "PROFILE_POST" : "POST_SUCCESS",
+          payload: [response.data, ...posts],
+        });
         setBackground("");
         setText("");
         setCreatePostVisible(false);
@@ -65,7 +74,11 @@ export default function CreatePostPopup({ user, setCreatePostVisible }) {
         user.token
       );
       setLoading(false);
-      if (res === "OK") {
+      if (res.status === "OK") {
+        dispatch({
+          type: profile ? "PROFILE_POST" : "POST_SUCCESS",
+          payload: [res.data, ...posts],
+        });
         setText("");
         setImages("");
         setCreatePostVisible(false);
@@ -84,7 +97,11 @@ export default function CreatePostPopup({ user, setCreatePostVisible }) {
       );
       setLoading(false);
 
-      if (response === "OK") {
+      if (response.status === "OK") {
+        dispatch({
+          type: profile ? "PROFILE_POST" : "POST_SUCCESS",
+          payload: [response.data, ...posts],
+        });
         setBackground("");
         setText("");
         setCreatePostVisible(false);
