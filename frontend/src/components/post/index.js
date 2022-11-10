@@ -269,6 +269,7 @@ export default function Post({ post, user, profile }) {
           token={user.token}
           checkSaved={checkSaved}
           setCheckSaved={setCheckSaved}
+          images={post.images}
         />
       )}
     </div>
